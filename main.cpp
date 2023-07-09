@@ -1,31 +1,14 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <set>
+#include <vector>
 #include <utility>
 
-#define XSIZE 100
-#define YSIZE 100
-#define CELL_SIZE 10
-
-bool grid[XSIZE][YSIZE];
-bool new_grid[XSIZE][YSIZE];
-bool printed;
+std::pair<std::vector<int>> sparse_grid;
+std::pair<std::vector<int>> new_sparse_grid;
 bool running;
 SDL_Window *window;
 SDL_Renderer *renderer;
-
-void init_grid()
-{
-	for (int i = 0; i < XSIZE; ++i)
-	{
-		for (int j = 0; j < YSIZE; ++j)
-		{
-			grid[i][j] = 0;
-		}
-	}
-	printed = false;
-	running = false;
-}
 
 void initSDL()
 {
@@ -50,45 +33,44 @@ void initSDL()
 								std::exit(1);
 				}
 }
+// void print_grid()
+// {
+// 				if (printed == false)
+// 				{
+// 								printed = true;
+// 				}
+// 				else
+// 				{
+// 								for (int i = 0; i < XSIZE + 3; i++)
+// 												std::cout <<"\x1b[A";
+// 				}
+// 				std::cout << std::endl << "+";
+// 				for (int j = 0; j < YSIZE; j++)
+// 								std::cout << "---";
+// 				std::cout << "+" << std::endl;
 
-void print_grid()
-{
-				if (printed == false)
-				{
-								printed = true;
-				}
-				else
-				{
-								for (int i = 0; i < XSIZE + 3; i++)
-												std::cout <<"\x1b[A";
-				}
-				std::cout << std::endl << "+";
-				for (int j = 0; j < YSIZE; j++)
-								std::cout << "---";
-				std::cout << "+" << std::endl;
+// 				for (int i = 0; i < XSIZE; ++i)
+// 				{
+// 								std::cout << "|";
+// 								for (int j = 0; j < YSIZE; ++j)
+// 								{
+// 												if (grid[i][j] == 0)
+// 												{
+// 																std::cout<<"   ";
+// 												}
+// 												else
+// 												{
+// 																std::cout<<" @ ";
+// 												}
+// 								}
+// 								std::cout << "|\n";
+// 				}
 
-				for (int i = 0; i < XSIZE; ++i)
-				{
-								std::cout << "|";
-								for (int j = 0; j < YSIZE; ++j)
-								{
-												if (grid[i][j] == 0)
-												{
-																std::cout<<"   ";
-												}
-												else
-												{
-																std::cout<<" @ ";
-												}
-								}
-								std::cout << "|\n";
-				}
-
-				std::cout << "+";
-				for (int j = 0; j < YSIZE; j++)
-								std::cout << " - ";
-				std::cout << "+" << std::endl;
-}
+// 				std::cout << "+";
+// 				for (int j = 0; j < YSIZE; j++)
+// 								std::cout << " - ";
+// 				std::cout << "+" << std::endl;
+// }
 
 void toggle_cell(int i, int j)
 {
@@ -119,12 +101,11 @@ int alive_neighbours(int i, int j)
 
 void iterate_grid()
 {
-				int n;
 				for (int i = 0; i < XSIZE; ++i)
 				{
 								for (int j = 0; j < YSIZE; ++j)
 								{
-												n = alive_neighbours(i, j);
+												int n = alive_neighbours(i, j);
 												if (grid[i][j] && (n < 2 || n > 3))
 												{
 																new_grid[i][j] = 0;
@@ -144,6 +125,23 @@ void iterate_grid()
 								for (int j = 0; j < YSIZE; ++j)
 								{
 												grid[i][j] = new_grid[i][j];
+								}
+				}
+}
+
+void iterate_grid()
+{
+				{
+								for (int i = it->first - 1; i <= it->first + 1; ++i)
+								{
+												for (int j = it->second - 1; j <= it->second + 1; ++j)
+												{
+																std::pair<int> square;
+																square.first = i;
+																square.second = j;
+																if (sparse_matrix.contains(square))
+																				n++;
+												}
 								}
 				}
 }
