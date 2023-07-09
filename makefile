@@ -1,2 +1,2 @@
-main: main.cpp
-	g++ -g main.cpp -lSDL2 -o main 
+main: main.c structs.c
+	gcc -g structs.c main.c -lSDL2 -o main
